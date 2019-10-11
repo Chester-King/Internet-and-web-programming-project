@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 
+app.use(express.static('public'));
+
 const port = process.env.PORT || 3001;
 
 var objec = {
@@ -14,11 +16,19 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api1', function(req, res) {
-  res.send('API-1 Follow Attack');
+  res.render('api1.ejs');
 });
 
 app.get('/api2', function(req, res) {
-  res.send('API-2 Like Attack');
+  res.render('api2.ejs');
+});
+
+app.get('/login', function(req, res) {
+  res.render('login.ejs');
+});
+
+app.get('/signup', function(req, res) {
+  res.render('signup.ejs');
 });
 
 app.get('*', function(req, res) {
