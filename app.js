@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 
 app.use(express.static('public'));
+app.set('view engine', 'ejs');
 
 const port = process.env.PORT || 3001;
 
@@ -12,23 +13,31 @@ var objec = {
 };
 
 app.get('/', function(req, res) {
-  res.render('home.ejs', { obhe: objec });
+  res.render('home', { obhe: objec });
 });
 
 app.get('/api1', function(req, res) {
-  res.render('api1.ejs');
+  res.render('api1');
+});
+
+app.post('/api1', function(req, res) {
+  res.send('May the force be with you');
 });
 
 app.get('/api2', function(req, res) {
-  res.render('api2.ejs');
+  res.render('api2');
+});
+
+app.post('/api2', function(req, res) {
+  res.send('May the force be with you');
 });
 
 app.get('/login', function(req, res) {
-  res.render('login.ejs');
+  res.render('login');
 });
 
 app.get('/signup', function(req, res) {
-  res.render('signup.ejs');
+  res.render('signup');
 });
 
 app.get('*', function(req, res) {
