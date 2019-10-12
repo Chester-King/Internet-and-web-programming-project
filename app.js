@@ -3,13 +3,31 @@ var bodyParser = require('body-parser');
 var app = express();
 var request = require('request');
 var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var Data1 = require('./models/api1');
 var Data2 = require('./models/api2');
+var User = require('./models/user');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
+
+app.use(
+  require('express-session')({
+    secret: 'Ideals are Peaceful, History is Voilent',
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect('mongodb://chester:qwe123rty@ds145113.mlab.com:45113/iwp', {
   useNewUrlParser: true,
@@ -23,6 +41,8 @@ var objec = {
     force: 'check fire'
   }
 };
+
+// ROUTES
 
 app.get('/', function(req, res) {
   res.render('home', { obhe: objec });
@@ -128,12 +148,32 @@ app.post('/api2', function(req, res) {
   res.redirect('/');
 });
 
+// AUTH ROUTES
+
 app.get('/login', function(req, res) {
   res.render('login');
 });
 
 app.get('/signup', function(req, res) {
   res.render('signup');
+});
+
+app.post('/signup', function(req, res) {
+  req.body.email;
+  req.body.pass;
+  User.register(new User({ username: req.body.email }), req.body.pass, function(
+    err,
+    user
+  ) {
+    if (err) {
+      console.log(err);
+      return res.render('signup');
+    }
+
+    passport.authenticate('local')(req, res, function() {
+      res.redirect('/');
+    });
+  });
 });
 
 app.get('*', function(req, res) {
