@@ -1,7 +1,9 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 const port = process.env.PORT || 3001;
@@ -21,7 +23,8 @@ app.get('/api1', function(req, res) {
 });
 
 app.post('/api1', function(req, res) {
-  res.send('May the force be with you');
+  console.log(req.body);
+  res.redirect('/');
 });
 
 app.get('/api2', function(req, res) {
@@ -29,7 +32,8 @@ app.get('/api2', function(req, res) {
 });
 
 app.post('/api2', function(req, res) {
-  res.send('May the force be with you');
+  console.log(req.body);
+  res.redirect('/');
 });
 
 app.get('/login', function(req, res) {
