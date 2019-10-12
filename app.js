@@ -5,6 +5,7 @@ var request = require('request');
 var mongoose = require('mongoose');
 
 var Data1 = require('./models/api1');
+var Data2 = require('./models/api2');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -86,6 +87,22 @@ app.post('/api2', function(req, res) {
   password = req.body.instaPass;
   hashtag = req.body.hashtag;
   number = req.body.reqno;
+
+  Data2.create(
+    {
+      instaUser: username,
+      instaPass: password,
+      hashtag: hashtag,
+      requests: number
+    },
+    function(err, data1) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log('Data Added');
+      }
+    }
+  );
 
   request(
     {
