@@ -45,7 +45,11 @@
             <img src="images/img-01.png" alt="IMG" />
           </div>
 
-          <form class="login100-form validate-form">
+          <form
+            action="/login"
+            method="POST"
+            class="login100-form validate-form"
+          >
             <span class="login100-form-title">
               LOGIN
             </span>
@@ -57,7 +61,7 @@
               <input
                 class="input100"
                 type="text"
-                name="email"
+                name="username"
                 placeholder="Email"
               />
               <span class="focus-input100"></span>
@@ -73,7 +77,7 @@
               <input
                 class="input100"
                 type="password"
-                name="pass"
+                name="password"
                 placeholder="Password"
               />
               <span class="focus-input100"></span>

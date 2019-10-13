@@ -26,6 +26,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -154,26 +155,37 @@ app.get('/login', function(req, res) {
   res.render('login');
 });
 
+app.post(
+  '/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }),
+  function(req, res) {}
+);
+
 app.get('/signup', function(req, res) {
   res.render('signup');
 });
 
 app.post('/signup', function(req, res) {
-  req.body.email;
-  req.body.pass;
-  User.register(new User({ username: req.body.email }), req.body.pass, function(
-    err,
-    user
-  ) {
-    if (err) {
-      console.log(err);
-      return res.render('signup');
-    }
+  console.log(req.body);
+  req.body.username;
+  req.body.password;
+  User.register(
+    new User({ username: req.body.username }),
+    req.body.password,
+    function(err, user) {
+      if (err) {
+        console.log(err);
+        return res.render('signup');
+      }
 
-    passport.authenticate('local')(req, res, function() {
-      res.redirect('/');
-    });
-  });
+      passport.authenticate('local')(req, res, function() {
+        res.redirect('/');
+      });
+    }
+  );
 });
 
 app.get('*', function(req, res) {
