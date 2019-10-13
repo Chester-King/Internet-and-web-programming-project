@@ -49,7 +49,7 @@ app.get('/', function(req, res) {
   res.render('home', { obhe: objec });
 });
 
-app.get('/api1', function(req, res) {
+app.get('/api1', isLoggedIn, function(req, res) {
   res.render('api1');
 });
 
@@ -97,7 +97,7 @@ app.post('/api1', function(req, res) {
   res.redirect('/');
 });
 
-app.get('/api2', function(req, res) {
+app.get('/api2', isLoggedIn, function(req, res) {
   res.render('api2');
 });
 
@@ -191,6 +191,20 @@ app.post('/signup', function(req, res) {
     }
   );
 });
+
+// LOGOUT ROUTE
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+}
 
 app.get('*', function(req, res) {
   res.send('Wrong place man !!');
