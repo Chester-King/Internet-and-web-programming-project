@@ -151,6 +151,8 @@ app.post('/api2', function(req, res) {
 
 // AUTH ROUTES
 
+// LOGIN ROUTES
+
 app.get('/login', function(req, res) {
   res.render('login');
 });
@@ -163,6 +165,8 @@ app.post(
   }),
   function(req, res) {}
 );
+
+// SIGN UP ROUTES
 
 app.get('/signup', function(req, res) {
   res.render('signup');
