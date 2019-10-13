@@ -46,7 +46,7 @@ var objec = {
 // ROUTES
 
 app.get('/', function(req, res) {
-  res.render('home', { obhe: objec });
+  res.render('home', { currentUser: req.user });
 });
 
 app.get('/api1', isLoggedIn, function(req, res) {
